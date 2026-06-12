@@ -9,9 +9,10 @@ connected SSE clients as it happens.
 import asyncio
 import json
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI
-from fastapi.responses import StreamingResponse
+from fastapi.responses import FileResponse, StreamingResponse
 from pydantic import BaseModel
 
 import agent
@@ -52,6 +53,11 @@ async def lifespan(app):
 
 
 app = FastAPI(lifespan=lifespan)
+
+
+@app.get("/")
+async def index():
+    return FileResponse(Path(__file__).parent / "static" / "index.html")
 
 
 class Message(BaseModel):
