@@ -8,12 +8,10 @@ on top without the loop knowing about it.
 import json
 import os
 import re
-import sys
 from pathlib import Path
 
 from openai import OpenAI
 
-from memory import Memory
 from tools import TOOLS, run_bash
 
 MAX_ITERATIONS = 20
@@ -75,20 +73,3 @@ def run(user_text, source, memory, emit):
     text = "[iteration limit reached]"
     emit(memory.append({"source": source, "type": "assistant", "content": text}))
     return text
-
-
-def _print_event(event):
-    t = event["type"]
-    if t == "reasoning":
-        print(f"\033[2m[reasoning] {event['content']}\033[0m")
-    elif t == "tool_call":
-        for tc in event["content"]["tool_calls"]:
-            print(f"[tool_call] run_bash {tc['function']['arguments']}")
-    elif t == "tool_result":
-        print(f"[tool_result] {event['content']['content']}")
-    elif t == "assistant":
-        print(event["content"])
-
-
-if __name__ == "__main__":
-    run(" ".join(sys.argv[1:]), "cli", Memory(), _print_event)
