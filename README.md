@@ -21,11 +21,17 @@ You need Docker and an OpenAI-compatible LLM endpoint (by default: [LM Studio](h
 docker compose up
 ```
 
-Then open the live web UI at **http://localhost:8000** — or talk to it from the terminal:
+Then open the live web UI at **http://localhost:8000** — or talk to it from the terminal. `cli.py` is a pure-stdlib HTTP client, so it runs with any Python 3 directly on the host:
 
 ```sh
 python cli.py                      # interactive REPL
 python cli.py -p "what time is it" # one-shot (this is what cron calls)
+```
+
+No Python on the host? Run it inside the container instead:
+
+```sh
+docker compose exec shin python3 cli.py
 ```
 
 To use a different backend or model:
