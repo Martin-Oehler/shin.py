@@ -66,6 +66,13 @@ def test_concurrent_messages_are_serialized(client, fake_runs):
     assert second[1] >= first[2], "runs overlapped instead of serializing"
 
 
+def test_index_serves_chat_page(client):
+    resp = client.get("/")
+    assert resp.status_code == 200
+    assert resp.headers["content-type"].startswith("text/html")
+    assert "EventSource" in resp.text  # the page is a live /events client
+
+
 def test_events_replays_history_on_connect(client):
     """Consume the SSE generator directly: TestClient cannot close a
     never-ending stream (it waits for the generator to finish), and the
