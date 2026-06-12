@@ -1,0 +1,11 @@
+services:
+  shin:
+    build: .
+    volumes:
+      - ./:/app          # live source + state/history.jsonl persists on the host
+    extra_hosts:
+      - "host.docker.internal:host-gateway"   # reach LM Studio on the host (Linux)
+    environment:
+      OPENAI_BASE_URL: ${OPENAI_BASE_URL:-http://host.docker.internal:1234/v1}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-lm-studio}
+      MODEL: ${MODEL:-google/gemma-4-e4b}
