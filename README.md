@@ -36,13 +36,13 @@ OPENAI_BASE_URL=https://api.example.com/v1 OPENAI_API_KEY=... MODEL=... docker c
 
 ## How it works
 
-| File | Lines | What it does |
-|---|---|---|
-| `agent.py` | ~75 | The loop: LLM call → tool execution → repeat until a final answer |
-| `memory.py` | ~55 | Event log as single source of truth; rolling context window from its tail |
-| `tools.py` | ~50 | The single tool: run a bash command, capped output, 30 s timeout |
-| `server.py` | ~90 | FastAPI daemon: serialized run queue, SSE broadcast of every event |
-| `cli.py` | ~40 | Thin HTTP client — no agent logic at all |
+| File | What it does |
+|---|---|
+| `agent.py` | The loop: LLM call → tool execution → repeat until a final answer |
+| `memory.py` | Event log as single source of truth; rolling context window from its tail |
+| `tools.py` | The single tool: run a bash command, capped output, 30 s timeout |
+| `server.py` | FastAPI daemon: serialized run queue, SSE broadcast of every event |
+| `cli.py` | Thin HTTP client — no agent logic at all |
 
 Every step (user message, reasoning, tool call, tool result, answer) is an event. Events are appended to the log and streamed live to the browser. That's the whole system.
 
