@@ -49,10 +49,13 @@ OPENAI_BASE_URL=https://api.example.com/v1 OPENAI_API_KEY=... MODEL=... docker c
 | `tools.py` | The single tool: run a bash command, capped output, 30 s timeout |
 | `server.py` | FastAPI daemon: serialized run queue, SSE broadcast of every event |
 | `cli.py` | Thin HTTP client — no agent logic at all |
+| `Soul.md` | The system prompt: purpose plus self-knowledge (edit it to change the persona) |
 
 Every step (user message, reasoning, tool call, tool result, answer) is an event. Events are appended to the log and streamed live to the browser. That's the whole system.
 
-Drop a `Soul.md` next to `agent.py` to give the agent a custom system prompt.
+## Self-registered hooks
+
+There is no hook or scheduler subsystem. The container runs `cron`, and `cli.py -p "<prompt>"` is a one-shot trigger — `Soul.md` tells the agent about both. Ask it to do something later ("every morning, check the disk usage") and it registers an ordinary crontab entry itself; when the job fires, the result lands in the shared memory and shows up in the web UI tagged `trigger`. The hook mechanism emerges from bash + the trigger CLI + self-knowledge.
 
 ## License
 
