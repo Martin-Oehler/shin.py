@@ -17,7 +17,7 @@ from memory import Memory
 from tools import TOOLS, run_bash
 
 MAX_ITERATIONS = 20
-MODEL = os.environ.get("MODEL", "qwen/qwen3-14b")
+MODEL = os.environ.get("MODEL", "google/gemma-4-e4b")
 
 SOUL_FILE = Path(__file__).parent / "Soul.md"
 SOUL = (
