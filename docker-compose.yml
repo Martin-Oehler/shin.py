@@ -1,6 +1,9 @@
 services:
   shin:
     build: .
+    command: uvicorn server:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
     volumes:
       - ./:/app          # live source + state/history.jsonl persists on the host
     extra_hosts:
