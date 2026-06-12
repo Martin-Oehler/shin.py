@@ -6,6 +6,6 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends python3 python3-pip cron ca-certificates curl \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install --break-system-packages fastapi uvicorn openai
+RUN pip3 install --break-system-packages fastapi uvicorn openai pytest
 
 WORKDIR /app
